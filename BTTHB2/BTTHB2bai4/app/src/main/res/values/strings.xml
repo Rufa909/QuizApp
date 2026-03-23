@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BTTHB2bai4</string>
+    <string name="title_app">Ứng dụng đếm số lần nhấn và thời gian nhấn và giữ</string>
+    <string name="btn_press">NHẤN</string>
+    <string name="btn_long_press">NHẤN VÀ GIỮ</string>
+    <string name="press_count">Số lần nhấn: 0</string>
+    <string name="long_press_count">Số lần nhấn và giữ: 0</string>
+</resources>

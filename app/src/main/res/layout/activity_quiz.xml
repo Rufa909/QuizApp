@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <View
+        android:id="@+id/orangeHeader"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#ff7043"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tvQuestionCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Questions 1/20"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_timer_box"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="6 sec"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEndQuiz"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_end_quiz_btn"
+        android:text="End quiz"
+        android:textAllCaps="false"
+        android:textColor="#ff7043"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="80dp"/>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/questionCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-40dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toTopOf="@id/btnNext"
+        app:layout_constraintTop_toBottomOf="@id/orangeHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/tvQuestionContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nguyên tử X có 26 proton trong hạt nhân."
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="30dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAns1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_answer_option"
+                android:text="X có 26 nơtron trong hạt nhân"
+                android:textAllCaps="false"
+                android:textColor="#333333" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAns2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_answer_option"
+                android:text="X có 26 electron ở vỏ nguyên tử."
+                android:textAllCaps="false"
+                android:textColor="#333333"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAns3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_answer_option"
+                android:text="X có điện tích hạt nhân là 26+."
+                android:textAllCaps="false"
+                android:textColor="#333333" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAns4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_answer_option"
+                android:text="Khối lượng nguyên tử X là 26u."
+                android:textAllCaps="false"
+                android:textColor="#333333" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_next_btn"
+        android:text="Next"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
