@@ -9,7 +9,7 @@
         android:id="@+id/orangeHeader"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="#ff7043"
+        android:background="#39A1CB"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
@@ -24,7 +24,7 @@
             android:id="@+id/tvQuestionCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Questions 1/20"
+            android:text="Câu 1/20"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -36,7 +36,7 @@
             android:background="@drawable/bg_timer_box"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:text="6 sec"
+            android:text="Thời gian em"
             android:textColor="#000000"
             android:textSize="16sp" />
     </LinearLayout>
@@ -46,9 +46,9 @@
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:background="@drawable/bg_end_quiz_btn"
-        android:text="End quiz"
+        android:text="KẾT THÚC"
         android:textAllCaps="false"
-        android:textColor="#ff7043"
+        android:textColor="#39A1CB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="20dp"
@@ -75,7 +75,7 @@
                 android:id="@+id/tvQuestionContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nguyên tử X có 26 proton trong hạt nhân."
+                android:text="quét chìn???????"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -88,7 +88,7 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/bg_answer_option"
-                android:text="X có 26 nơtron trong hạt nhân"
+                android:text="Phải là câu A"
                 android:textAllCaps="false"
                 android:textColor="#333333" />
 
@@ -98,7 +98,7 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/bg_answer_option"
-                android:text="X có 26 electron ở vỏ nguyên tử."
+                android:text="Câu B đó em"
                 android:textAllCaps="false"
                 android:textColor="#333333"/>
 
@@ -108,7 +108,7 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/bg_answer_option"
-                android:text="X có điện tích hạt nhân là 26+."
+                android:text="Câu C nè"
                 android:textAllCaps="false"
                 android:textColor="#333333" />
 
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@drawable/bg_answer_option"
-                android:text="Khối lượng nguyên tử X là 26u."
+                android:text="Câu D nè"
                 android:textAllCaps="false"
                 android:textColor="#333333" />
 
@@ -129,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@drawable/bg_next_btn"
-        android:text="Next"
+        android:text="Tiếp theo"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="16dp"/>

@@ -29,7 +29,7 @@
         android:layout_alignTop="@id/imgProfile"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:text="Dong bach"
+        android:text="Tên Du Sơ"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -84,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="Luyện thi Y Khoa"
+                        android:text="Luyện môn Anh"
                         android:textColor="#333333"
                         android:textSize="17sp"
                         android:textStyle="bold" />
@@ -116,7 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="Luyện thi Quân đội Công an"
+                        android:text="Luyện môn Toán"
                         android:textColor="#333333"
                         android:textSize="17sp"
                         android:textStyle="bold" />
