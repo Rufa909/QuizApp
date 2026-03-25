@@ -76,16 +76,20 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <TextView
+    <Button
         android:id="@+id/btnGoRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chưa có tài khoản hả? Đăng ký nga"
-        android:textColor="#27AE60"
+        android:text="Chưa có tài khoản hả? Đăng ký ngay"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#27AE60"
         android:textStyle="bold"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="32dp"
+        app:cornerRadius="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
