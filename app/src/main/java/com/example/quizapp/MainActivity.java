@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        db = new DatabaseHelper(this);
+
         SharedPreferences pref = getSharedPreferences("USER", MODE_PRIVATE);
         userid = pref.getInt("user_id", -1);
         username = pref.getString("username", "");
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         recycleView = findViewById(R.id.recyclerCategories);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        db = new DatabaseHelper(this);
         List<categories> list_categories = db.getAllCategories();
 
         adapter_categories = new CategoryAdapter(this, list_categories);
