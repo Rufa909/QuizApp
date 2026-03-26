@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.quizapp.MainActivity;
 import com.example.quizapp.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity{

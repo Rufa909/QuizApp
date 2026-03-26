@@ -21,6 +21,9 @@
         </activity>
 
         <activity android:name=".MainActivity"/>
+        <activity android:name=".QuizActivity"/>
+        <activity android:name=".ResultScoreActivity"/>
+        <activity android:name=".QuestionActivity"/>
         <activity android:name=".auth.LoginActivity"/>
         <activity android:name=".auth.RegisterActivity"/>
     </application>

@@ -8,11 +8,12 @@ import android.widget.Toast;
 
 import com.example.quizapp.R;
 import com.example.quizapp.database.DatabaseHelper;
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText edtUser, edtPass;
+    TextInputEditText edtUser, edtPass;
     Button btnRegister, btnGoLogin;
 
     @Override
