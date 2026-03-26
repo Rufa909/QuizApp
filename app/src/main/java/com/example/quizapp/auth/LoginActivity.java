@@ -9,10 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.quizapp.MainActivity;
 import com.example.quizapp.R;
+import com.example.quizapp.class_package.users;
 import com.example.quizapp.database.DatabaseHelper;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText edtUser, edtPass;
+    TextInputEditText edtUser, edtPass;
     Button btnLogin, btnGoRegister;
 
     @Override
@@ -41,15 +43,18 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(this);
 
         btnLogin.setOnClickListener(v -> {
-            String user = edtUser.getText().toString().trim();
+            String user_name = edtUser.getText().toString().trim();
             String pass = edtPass.getText().toString().trim();
 
-            int loginUserId = db.loginUser(user, pass);
+            users user = db.loginUser(user_name, pass);
 
-            if (loginUserId != -1) {
+            if (user != null) {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
-                prefs.edit().putInt("user_id", loginUserId).apply();
+                prefs.edit()
+                        .putInt("user_id", user.id)
+                        .putString("username", user.username)
+                        .apply();
 
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
