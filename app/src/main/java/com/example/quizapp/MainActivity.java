@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        db = new DatabaseHelper(this);
+
         SharedPreferences pref = getSharedPreferences("USER", MODE_PRIVATE);
         userid = pref.getInt("user_id", -1);
         username = pref.getString("username", "");

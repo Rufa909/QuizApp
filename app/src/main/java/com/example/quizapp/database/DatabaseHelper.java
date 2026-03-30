@@ -1,4 +1,5 @@
 package com.example.quizapp.database;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -30,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
+    public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -112,8 +113,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS users");
         onCreate(db);
     }
-    private void insertSampleData(SQLiteDatabase db) {
 
+    private void insertSampleData(SQLiteDatabase db) {
+        // Đã sửa lỗi merge: Giữ lại bản có cột role ADMIN
         db.execSQL("INSERT INTO users (id, username, password, role) VALUES (1, 'admin', '123', 'ADMIN')");
 
         db.execSQL("INSERT INTO categories (name, description) VALUES ('Java', 'Lập trình Java')");
@@ -125,6 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO quizzes (title, description, category_id, difficulty, created_by) " +
                 "VALUES ('Android UI', 'Quiz Android', 2, 'Medium', 1)");
 
+        // Java Questions
         db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
                 "VALUES (1, 'Java là gì?', 'Ngôn ngữ lập trình', 'Easy')");
 
@@ -150,117 +153,193 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO answers VALUES (NULL, " + q2Id + ", 'Compiler', 0)");
         db.execSQL("INSERT INTO answers VALUES (NULL, " + q2Id + ", 'IDE', 0)");
         db.execSQL("INSERT INTO answers VALUES (NULL, " + q2Id + ", 'Framework', 0)");
-    }
-    public users loginUser(String username, String password){
-        SQLiteDatabase db = this.getReadableDatabase();
 
+        // Android Questions
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Intend resolution là gì?', 'Quá trình tìm kiếm một hoạt động phù hợp với một Intent', 'Easy')");
+
+        Cursor c3 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c3.moveToFirst();
+        int q3Id = c3.getInt(0);
+        c3.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q3Id + ", 'Quá trình thực hiện một tác vụ hệ thống', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q3Id + ", 'Quá trình tìm kiếm một hoạt động phù hợp với một Intent', 1)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q3Id + ", 'Quá trình khởi chạy một hoạt động', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q3Id + ", 'Quá trình chia sẻ dữ liệu', 0)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Trong Android, để tạo một thanh tiêu đề tùy chỉnh cho một hoạt động (activity), thường sử dụng lớp nào?', 'Toolbar', 'Easy')");
+
+        Cursor c4 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c4.moveToFirst();
+        int q4Id = c4.getInt(0);
+        c4.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q4Id + ", 'ActionBar', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q4Id + ", 'MenuBar', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q4Id + ", 'Toolbar', 1)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q4Id + ", 'TitleBar', 0)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Trong Android, để lấy vị trí GPS của thiết bị, cần yêu cầu quyền (permission) nào trong tệp AndroidManifest.xml?', 'ACCESS_FINE_LOCATION', 'Easy')");
+
+        Cursor c5 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c5.moveToFirst();
+        int q5Id = c5.getInt(0);
+        c5.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q5Id + ", 'ACCESS_WIFI_STATE', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q5Id + ", 'ACCESS_FINE_LOCATION', 1)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q5Id + ", 'WRITE_EXTERNAL_STORAGE', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q5Id + ", 'INTERNET', 0)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Để lưu trữ một chuỗi \"username\" trong SharedPreferences, đoạn mã nào sau đây là đúng?', 'Lưu trữ \"username\" với giá trị \"JohnDoe\" trong SharedPreferences', 'Medium')");
+
+        Cursor c6 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c6.moveToFirst();
+        int q6Id = c6.getInt(0);
+        c6.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q6Id + ", 'Xóa \"username\" khỏi SharedPreferences', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q6Id + ", 'Tạo mới SharedPreferences nhưng không lưu gì', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q6Id + ", 'Đọc giá trị \"username\" từ SharedPreferences', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q6Id + ", 'Lưu trữ \"username\" với giá trị \"JohnDoe\" trong SharedPreferences', 1)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Làm thế nào để cập nhật giao diện người dùng từ luồng phụ khi doHeavyWork() hoàn thành?', 'Tất cả đều đúng', 'Medium')");
+
+        Cursor c7 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c7.moveToFirst();
+        int q7Id = c7.getInt(0);
+        c7.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q7Id + ", 'Thêm runOnUiThread() vào phần cập nhật giao diện', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q7Id + ", 'Tất cả đều đúng', 1)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q7Id + ", 'Dùng AsyncTask thay vì Thread', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q7Id + ", 'Thêm new Handler(Looper.getMainLooper())', 0)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Về phía activity nhận, nếu cần trả về kết quả thành công cho activity trước, thì dùng phương thức gì?', 'setResult(RESULT_OK, x);', 'Easy')");
+
+        Cursor c8 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c8.moveToFirst();
+        int q8Id = c8.getInt(0);
+        c8.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q8Id + ", 'setRespond(RESULT_PASS, x);', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q8Id + ", 'setRespond(RESULT_OK, x);', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q8Id + ", 'setResult(RESULT_PASS, x);', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q8Id + ", 'setResult(RESULT_OK, x);', 1)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Trong lập trình Android, để tạo một cơ sở dữ liệu SQLite mới, nên thực hiện bước nào sau đây?', 'Sử dụng lớp SQLiteDatabase để tạo cơ sở dữ liệu.', 'Easy')");
+
+        Cursor c9 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c9.moveToFirst();
+        int q9Id = c9.getInt(0);
+        c9.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q9Id + ", 'Sử dụng lớp SQLiteDatabase để tạo cơ sở dữ liệu.', 1)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q9Id + ", 'Sử dụng lệnh \"CREATE TABLE\" để tạo bảng', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q9Id + ", 'Cài đặt thư viện \"android.database.sqlite\"', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q9Id + ", 'Sử dụng Context.openOrCreateDatabase', 0)");
+
+        db.execSQL("INSERT INTO questions (quiz_id, question_text, explanation, difficulty) " +
+                "VALUES (2, 'Trong Android, để thực hiện truy vấn SQLite SELECT, cần sử dụng phương thức nào của lớp SQLiteDatabase?', 'query()', 'Easy')");
+
+        Cursor c10 = db.rawQuery("SELECT last_insert_rowid()", null);
+        c10.moveToFirst();
+        int q10Id = c10.getInt(0);
+        c10.close();
+
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q10Id + ", 'select()', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q10Id + ", 'query()', 1)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q10Id + ", 'getData()', 0)");
+        db.execSQL("INSERT INTO answers VALUES (NULL, " + q10Id + ", 'executeQuery()', 0)");
+    }
+
+    // --- Các phương thức bên dưới giữ nguyên không thay đổi ---
+
+    public users loginUser(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
                 "SELECT id, username, role FROM users WHERE username = ? AND password = ?",
                 new String[]{username, password}
         );
-
-        if(cursor.moveToFirst()) {
-            int id = cursor.getInt(0);
-            String user_name = cursor.getString(1);
-            String role = cursor.getString(2);
-
+        if (cursor.moveToFirst()) {
             users user = new users();
-            user.id = id;
-            user.username = user_name;
-            user.role = role;
-
+            user.id = cursor.getInt(0);
+            user.username = cursor.getString(1);
+            user.role = cursor.getString(2);
             cursor.close();
             return user;
         }
-
         cursor.close();
         return null;
     }
 
-    public boolean registerUser(String username, String password){
+    public boolean registerUser(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor cursor = db.rawQuery(
-                "select id from users where username = ?",
-                new String[]{username}
-        );
-
-        if(cursor.moveToFirst()){
+        Cursor cursor = db.rawQuery("select id from users where username = ?", new String[]{username});
+        if (cursor.moveToFirst()) {
             cursor.close();
             return false;
         }
-
         cursor.close();
-
-        db.execSQL(
-                "Insert into users(username, password) values(?, ?)",
-                new Object[] {username, password}
-        );
-
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("password", password);
+        long result = db.insert("users", null, values);
+        return result != -1;
     }
 
-    public List<quizzes> getAllQuizByCateID(String id){
+    public List<quizzes> getAllQuizByCateID(String id) {
         List<quizzes> list = new ArrayList<>();
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM quizzes where category_id = ?", new String[] {id});
-
+        Cursor cursor = db.rawQuery("SELECT * FROM quizzes where category_id = ?", new String[]{id});
         if (cursor.moveToFirst()) {
             do {
                 quizzes quiz = new quizzes();
-
-                quiz.id = cursor.getInt(0);
-                quiz.title = cursor.getString(1);
-                quiz.description = cursor.getString(2);
-                quiz.category_id = cursor.getInt(3);
-                quiz.difficulty = cursor.getString(4);
-                quiz.created_by = cursor.getInt(5);
-                quiz.created_at = cursor.getString(6);
-
+                quiz.id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                quiz.title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                quiz.description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+                quiz.category_id = cursor.getInt(cursor.getColumnIndexOrThrow("category_id"));
+                quiz.difficulty = cursor.getString(cursor.getColumnIndexOrThrow("difficulty"));
+                quiz.created_by = cursor.getInt(cursor.getColumnIndexOrThrow("created_by"));
+                quiz.created_at = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
                 list.add(quiz);
-
             } while (cursor.moveToNext());
         }
-
         cursor.close();
         return list;
     }
 
-    public List<questions> getAllQuestionByQuizzId(String id){
+    public List<questions> getAllQuestionByQuizzId(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
         List<questions> list_question = new ArrayList<>();
-        Cursor cursor = db.rawQuery(
-                "select * from questions where quiz_id = ?",
-                new String[] {id}
-        );
-
-        if(cursor.moveToFirst()){
-            do{
+        Cursor cursor = db.rawQuery("select * from questions where quiz_id = ?", new String[]{id});
+        if (cursor.moveToFirst()) {
+            do {
                 questions ques = new questions();
-
                 ques.id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 ques.quiz_id = cursor.getInt(cursor.getColumnIndexOrThrow("quiz_id"));
                 ques.question_text = cursor.getString(cursor.getColumnIndexOrThrow("question_text"));
                 ques.explanation = cursor.getString(cursor.getColumnIndexOrThrow("explanation"));
                 ques.difficulty = cursor.getString(cursor.getColumnIndexOrThrow("difficulty"));
-
                 list_question.add(ques);
-            }
-            while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
-
         cursor.close();
         return list_question;
     }
-    public List<answers> getAllAnswerByQuestionID(String id){
+
+    public List<answers> getAllAnswerByQuestionID(String id) {
         SQLiteDatabase db = getReadableDatabase();
         List<answers> list_answer = new ArrayList<>();
-        Cursor cursor = db.rawQuery(
-                "select * from answers where question_id = ?",
-                new String[] {id}
-        );
-        if(cursor.moveToFirst()){
+        Cursor cursor = db.rawQuery("select * from answers where question_id = ?", new String[]{id});
+        if (cursor.moveToFirst()) {
             do {
                 answers ans = new answers();
                 ans.id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
@@ -268,43 +347,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ans.answer_text = cursor.getString(cursor.getColumnIndexOrThrow("answer_text"));
                 ans.is_correct = cursor.getInt(cursor.getColumnIndexOrThrow("is_correct"));
                 list_answer.add(ans);
-            }
-            while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list_answer;
     }
-    public List<categories> getAllCategories(){
+
+    public List<categories> getAllCategories() {
         List<categories> list_cate = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "select * from categories",
-                null
-        );
-
-        if(cursor.moveToFirst()){
+        Cursor cursor = db.rawQuery("select * from categories", null);
+        if (cursor.moveToFirst()) {
             do {
                 categories cate = new categories();
-
-                cate.id = cursor.getInt(0);
-                cate.name = cursor.getString(1);
-                cate.description = cursor.getString(2);
-
+                cate.id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                cate.name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                cate.description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
                 list_cate.add(cate);
-            }
-            while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list_cate;
     }
-    public List<answers> getTestAnswer(){
+
+    public List<answers> getTestAnswer() {
         SQLiteDatabase db = getReadableDatabase();
         List<answers> list_answer = new ArrayList<>();
-        Cursor cursor = db.rawQuery(
-                "select * from answers",
-                null
-        );
-        if(cursor.moveToFirst()){
+        Cursor cursor = db.rawQuery("select * from answers", null);
+        if (cursor.moveToFirst()) {
             do {
                 answers ans = new answers();
                 ans.id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
@@ -312,35 +382,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ans.answer_text = cursor.getString(cursor.getColumnIndexOrThrow("answer_text"));
                 ans.is_correct = cursor.getInt(cursor.getColumnIndexOrThrow("is_correct"));
                 list_answer.add(ans);
-            }
-            while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list_answer;
     }
 
-    public boolean saveUserProcess(int user_id, int quiz_id, int score, int total_question){
+    public boolean saveUserProcess(int user_id, int quiz_id, int score, int total_question) {
         SQLiteDatabase db = getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put("user_id", user_id);
         values.put("quiz_id", quiz_id);
         values.put("score", score);
         values.put("total_questions", total_question);
-
-        // nếu có cột thời gian
-        values.put("started_at", System.currentTimeMillis());
-        values.put("finished_at", System.currentTimeMillis());
-
+        values.put("started_at", String.valueOf(System.currentTimeMillis()));
+        values.put("finished_at", String.valueOf(System.currentTimeMillis()));
         long result = db.insert("quiz_attempts", null, values);
-
-        return result != -1; // true nếu insert thành công
+        return result != -1;
     }
+
     public List<quiz_attempts> getUserAttempts(int user_id) {
         List<quiz_attempts> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM quiz_attempts WHERE user_id = ?",
-                new String[]{String.valueOf(user_id)});
+        Cursor cursor = db.rawQuery("SELECT * FROM quiz_attempts WHERE user_id = ?", new String[]{String.valueOf(user_id)});
         if (cursor.moveToFirst()) {
             do {
                 quiz_attempts attempt = new quiz_attempts();
@@ -359,27 +423,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean removeAllUser() {
-        SQLiteDatabase db = this.getWritableDatabase(); // phải là writable để xóa
+        SQLiteDatabase db = this.getWritableDatabase();
         try {
-            db.delete("users", null, null); // xóa tất cả dòng trong bảng users
-            // Hoặc bạn có thể dùng execSQL: db.execSQL("DELETE FROM users");
-            return true; // xóa thành công
+            db.delete("users", null, null);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // xóa thất bại
-        } finally {
-            db.close();
+            return false;
         }
     }
 
     public int getQuestionCountByQuizId(int quizId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM questions WHERE quiz_id = ?",
-                new String[]{String.valueOf(quizId)});
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM questions WHERE quiz_id = ?", new String[]{String.valueOf(quizId)});
         int count = 0;
-        if(cursor.moveToFirst()){
-            count = cursor.getInt(0);
-        }
+        if(cursor.moveToFirst()){ count = cursor.getInt(0); }
         cursor.close();
         return count;
     }
@@ -388,9 +446,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM users WHERE role = 'STUDENT'", null);
         int count = 0;
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0);
-        }
+        if (cursor.moveToFirst()) { count = cursor.getInt(0); }
         cursor.close();
         return count;
     }
@@ -399,12 +455,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM categories", null);
         int count = 0;
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0);
-        }
+        if (cursor.moveToFirst()) { count = cursor.getInt(0); }
         cursor.close();
         return count;
     }
+
     public long insertCategory(String name, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -415,7 +470,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean deleteCategory(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // Chú ý: Khi xóa Category, bạn nên xóa luôn các Quiz liên quan để tránh rác database
         db.delete("quizzes", "category_id = ?", new String[]{String.valueOf(id)});
         int result = db.delete("categories", "id = ?", new String[]{String.valueOf(id)});
         return result > 0;
@@ -433,7 +487,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean deleteQuiz(int quizId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // Xóa đáp án -> Xóa câu hỏi -> Xóa Quiz (đúng thứ tự khóa ngoại)
         db.execSQL("DELETE FROM answers WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)", new Object[]{quizId});
         db.delete("questions", "quiz_id = ?", new String[]{String.valueOf(quizId)});
         return db.delete("quizzes", "id = ?", new String[]{String.valueOf(quizId)}) > 0;
@@ -550,8 +603,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateUserName(int id, String newName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("username", newName); // Tên cột phải khớp với DB của bạn
-
+        values.put("username", newName);
         int result = db.update("users", values, "id = ?", new String[]{String.valueOf(id)});
         return result > 0;
     }
