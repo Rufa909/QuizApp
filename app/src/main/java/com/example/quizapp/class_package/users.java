@@ -10,11 +10,10 @@ public class users {
     public String avatar_url;
     public String created_at;
 
-    // Constructor rỗng (bắt buộc)
     public users() {
+        this.role = "STUDENT";
     }
 
-    // Constructor đầy đủ
     public users(int id, String username, String email, String password,
                  String role, String avatar_url, String created_at) {
         this.id = id;
@@ -26,7 +25,13 @@ public class users {
         this.created_at = created_at;
     }
 
-    // Constructor khi tạo user mới (không cần id)
+    public users(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = "STUDENT";
+    }
+
     public users(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;

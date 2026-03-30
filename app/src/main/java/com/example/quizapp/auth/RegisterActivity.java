@@ -41,6 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             if(db.registerUser(user, pass)){
                 Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
             else{
                 Toast.makeText(this, "Đã có tài khoản vui lòng đăng nhập", Toast.LENGTH_LONG).show();

@@ -29,6 +29,7 @@ public class ResultScoreActivity extends AppCompatActivity {
         int total = getIntent().getIntExtra("total_question", 0);
 
         tvMessage.setText("Điểm của bạn" + score);
+        tvScore.setText(score + "/" + total);
 
         if(score == total){
             tvMessage.setText("Xuất sắc");

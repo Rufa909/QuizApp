@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.quizapp.class_package.RankingItem;
+import com.example.quizapp.class_package.StatsData;
 import com.example.quizapp.class_package.answers;
 import com.example.quizapp.class_package.categories;
 import com.example.quizapp.class_package.questions;
@@ -33,7 +35,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT UNIQUE NOT NULL, " +
-                "password TEXT NOT NULL" +
+                "password TEXT NOT NULL," +
+                "email TEXT, " +
+                "role TEXT DEFAULT 'STUDENT', " +
+                "avatar_url TEXT" +
                 ")");
 
         db.execSQL("CREATE TABLE categories (" +
@@ -109,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     private void insertSampleData(SQLiteDatabase db) {
 
-        db.execSQL("INSERT INTO users (id, username, password) VALUES (1, 'admin', '123')");
+        db.execSQL("INSERT INTO users (id, username, password, role) VALUES (1, 'admin', '123', 'ADMIN')");
 
         db.execSQL("INSERT INTO categories (name, description) VALUES ('Java', 'Lập trình Java')");
         db.execSQL("INSERT INTO categories (name, description) VALUES ('Android', 'Lập trình Android')");
@@ -150,17 +155,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                "SELECT id, username FROM users WHERE username = ? AND password = ?",
+                "SELECT id, username, role FROM users WHERE username = ? AND password = ?",
                 new String[]{username, password}
         );
 
         if(cursor.moveToFirst()) {
             int id = cursor.getInt(0);
             String user_name = cursor.getString(1);
+            String role = cursor.getString(2);
 
             users user = new users();
             user.id = id;
             user.username = user_name;
+            user.role = role;
 
             cursor.close();
             return user;
@@ -349,5 +356,203 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return list;
+    }
+
+    public boolean removeAllUser() {
+        SQLiteDatabase db = this.getWritableDatabase(); // phải là writable để xóa
+        try {
+            db.delete("users", null, null); // xóa tất cả dòng trong bảng users
+            // Hoặc bạn có thể dùng execSQL: db.execSQL("DELETE FROM users");
+            return true; // xóa thành công
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // xóa thất bại
+        } finally {
+            db.close();
+        }
+    }
+
+    public int getQuestionCountByQuizId(int quizId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM questions WHERE quiz_id = ?",
+                new String[]{String.valueOf(quizId)});
+        int count = 0;
+        if(cursor.moveToFirst()){
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public int getStudentCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM users WHERE role = 'STUDENT'", null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public int getCategoryCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM categories", null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+    public long insertCategory(String name, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("description", description);
+        return db.insert("categories", null, values);
+    }
+
+    public boolean deleteCategory(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Chú ý: Khi xóa Category, bạn nên xóa luôn các Quiz liên quan để tránh rác database
+        db.delete("quizzes", "category_id = ?", new String[]{String.valueOf(id)});
+        int result = db.delete("categories", "id = ?", new String[]{String.valueOf(id)});
+        return result > 0;
+    }
+
+    public long insertQuiz(int categoryId, String title, String description, String difficulty) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("category_id", categoryId);
+        values.put("title", title);
+        values.put("description", description);
+        values.put("difficulty", difficulty);
+        return db.insert("quizzes", null, values);
+    }
+
+    public boolean deleteQuiz(int quizId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Xóa đáp án -> Xóa câu hỏi -> Xóa Quiz (đúng thứ tự khóa ngoại)
+        db.execSQL("DELETE FROM answers WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)", new Object[]{quizId});
+        db.delete("questions", "quiz_id = ?", new String[]{String.valueOf(quizId)});
+        return db.delete("quizzes", "id = ?", new String[]{String.valueOf(quizId)}) > 0;
+    }
+
+    public boolean deleteQuestion(int questionId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("answers", "question_id = ?", new String[]{String.valueOf(questionId)});
+        return db.delete("questions", "id = ?", new String[]{String.valueOf(questionId)}) > 0;
+    }
+
+    public long insertQuestion(int quizId, String text, String explanation, String difficulty) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("quiz_id", quizId);
+        values.put("question_text", text);
+        values.put("explanation", explanation);
+        values.put("difficulty", difficulty);
+        return db.insert("questions", null, values);
+    }
+
+    public void insertAnswer(long questionId, String text, int isCorrect) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("question_id", questionId);
+        values.put("answer_text", text);
+        values.put("is_correct", isCorrect);
+        db.insert("answers", null, values);
+    }
+
+    public List<quiz_attempts> getUserAttemptsWithTitle(int user_id) {
+        List<quiz_attempts> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT qa.*, q.title FROM quiz_attempts qa " +
+                        "LEFT JOIN quizzes q ON qa.quiz_id = q.id " +
+                        "WHERE qa.user_id = ? ORDER BY qa.id DESC",
+                new String[]{String.valueOf(user_id)}
+        );
+        if (cursor.moveToFirst()) {
+            do {
+                quiz_attempts attempt = new quiz_attempts();
+                attempt.id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                attempt.user_id = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
+                attempt.quiz_id = cursor.getInt(cursor.getColumnIndexOrThrow("quiz_id"));
+                attempt.score = cursor.getInt(cursor.getColumnIndexOrThrow("score"));
+                attempt.total_questions = cursor.getInt(cursor.getColumnIndexOrThrow("total_questions"));
+                attempt.started_at = cursor.getString(cursor.getColumnIndexOrThrow("started_at"));
+                attempt.quizTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                list.add(attempt);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public List<RankingItem> getGlobalRanking() {
+        List<RankingItem> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT u.username, SUM(qa.score) as total_score, COUNT(qa.id) as total_attempts " +
+                        "FROM quiz_attempts qa LEFT JOIN users u ON qa.user_id = u.id " +
+                        "GROUP BY qa.user_id ORDER BY total_score DESC LIMIT 20",
+                null
+        );
+        if (cursor.moveToFirst()) {
+            do {
+                RankingItem item = new RankingItem();
+                item.username = cursor.getString(0);
+                item.totalScore = cursor.getInt(1);
+                item.totalAttempts = cursor.getInt(2);
+                list.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public StatsData getUserStats(int user_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        StatsData stats = new StatsData();
+
+        Cursor c1 = db.rawQuery(
+                "SELECT COUNT(*), SUM(score), SUM(total_questions) FROM quiz_attempts WHERE user_id = ?",
+                new String[]{String.valueOf(user_id)}
+        );
+        if (c1.moveToFirst()) {
+            stats.totalAttempts = c1.getInt(0);
+            stats.totalScore = c1.getInt(1);
+            stats.totalQuestions = c1.getInt(2);
+        }
+        c1.close();
+
+        Cursor c2 = db.rawQuery(
+                "SELECT q.title, qa.score, qa.total_questions FROM quiz_attempts qa " +
+                        "LEFT JOIN quizzes q ON qa.quiz_id = q.id " +
+                        "WHERE qa.user_id = ? ORDER BY qa.id DESC LIMIT 5",
+                new String[]{String.valueOf(user_id)}
+        );
+        stats.recentAttempts = new ArrayList<>();
+        if (c2.moveToFirst()) {
+            do {
+                quiz_attempts a = new quiz_attempts();
+                a.quizTitle = c2.getString(0);
+                a.score = c2.getInt(1);
+                a.total_questions = c2.getInt(2);
+                stats.recentAttempts.add(a);
+            } while (c2.moveToNext());
+        }
+        c2.close();
+        return stats;
+    }
+
+    public boolean updateUserName(int id, String newName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", newName); // Tên cột phải khớp với DB của bạn
+
+        int result = db.update("users", values, "id = ?", new String[]{String.valueOf(id)});
+        return result > 0;
     }
 }

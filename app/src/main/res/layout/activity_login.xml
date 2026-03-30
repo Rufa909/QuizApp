@@ -14,8 +14,10 @@
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#27AE60"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="60dp" />
 
     <androidx.cardview.widget.CardView

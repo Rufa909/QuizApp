@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -23,6 +24,14 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".QuizActivity"/>
         <activity android:name=".ResultScoreActivity"/>
+        <activity android:name=".UserActivity"/>
+        <activity android:name=".AdminMainActivity"/>
+        <activity android:name=".AdminProfileActivity"/>
+        <activity android:name=".AdminQuizActivity"/>
+        <activity android:name=".AdminQuestionActivity"/>
+        <activity android:name=".HistoryActivity"/>
+        <activity android:name=".RankingActivity"/>
+        <activity android:name=".StatsActivity"/>
         <activity android:name=".QuestionActivity"/>
         <activity android:name=".auth.LoginActivity"/>
         <activity android:name=".auth.RegisterActivity"/>

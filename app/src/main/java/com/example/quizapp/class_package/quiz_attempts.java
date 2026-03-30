@@ -8,6 +8,7 @@ public class quiz_attempts {
     public int total_questions;
     public String started_at;
     public String finished_at;
+    public String quizTitle;
 
     public quiz_attempts() {}
 

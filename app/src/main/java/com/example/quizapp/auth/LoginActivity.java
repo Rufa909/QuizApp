@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.quizapp.AdminMainActivity;
 import com.example.quizapp.MainActivity;
 import com.example.quizapp.R;
 import com.example.quizapp.class_package.users;
@@ -49,16 +51,28 @@ public class LoginActivity extends AppCompatActivity {
             users user = db.loginUser(user_name, pass);
 
             if (user != null) {
-                Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-
                 prefs.edit()
                         .putInt("user_id", user.id)
                         .putString("username", user.username)
+                        .putString("role", user.role)
                         .apply();
 
-                Intent intent = new Intent(this, MainActivity.class);
+                Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+
+                Class<?> targetActivity;
+                if ("STUDENT".equals(user.role)) {
+                    targetActivity = MainActivity.class;
+                } else if ("ADMIN".equals(user.role)) {
+                    targetActivity = AdminMainActivity.class;
+                } else {
+                    Toast.makeText(this, "Role không hợp lệ", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Intent intent = new Intent(this, targetActivity);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+
             } else {
                 Toast.makeText(this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
             }
